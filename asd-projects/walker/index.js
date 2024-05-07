@@ -16,7 +16,21 @@ function runProgram(){
 
   // one-time setup
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
-  $(document).on('eventType', handleEvent);                           // change 'eventType' to the type of event you want to handle
+  $(document).on('keydown', handleKeyDown);                           // change 'eventType' to the type of event you want to handle
+
+  var KEY = {
+    UP: 38,
+    DOWN: 40,
+    LEFT: 37,
+    RIGHT: 39
+  };
+
+  var walker = {
+    xPos: 0,
+    yPos: 0,
+    xSpeed: 0,
+    ySpeed: 0
+  };
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -30,19 +44,39 @@ function runProgram(){
     
 
   }
-  
+
   /* 
   Called in response to events.
   */
-  function handleEvent(event) {
-
+  function handleKeyDown(event) {
+    if (event.which === KEY.LEFT) {
+      console.log("Left pressed");
+    } else if (event.which === KEY.UP) {
+      console.log("Up pressed");
+    } else if (event.which === KEY.DOWN) {
+      console.log("Down pressed");
+    } else if (event.which === KEY.RIGHT) {
+      console.log("Right pressed");
+    } else {
+      console.log("Please press an arrow key");
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
-
+  function repositionGameItem(wowza) {
+    if (handleKeyDown(LEFT)) {
+      walker.xPos -= walker.xSpeed;
+    } else if (handleKeyDown(RIGHT)) {
+      walker.xPos += walker.xSpeed;
+    }
+  }
   
+  function redrawGameItem() {
+    $("#Walker").css("left", walker.xPos);
+  }
+
   function endGame() {
     // stop the interval timer
     clearInterval(interval);
